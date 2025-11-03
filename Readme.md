@@ -39,7 +39,7 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduc
 ## Authors
 
 * **Niraj Jha** - [Niraj Jha](https://github.com/jha-niraj)
-* **Aman Ojha** - [Aman Ojha](https://github.com/Dharmendra2567)
+* **Dharmendra Sah** - [Dharmendra Sah](https://github.com/Dharmendra2567)
 
 ## License
 
