@@ -4,193 +4,207 @@
 {% block body %}
 
 <div style="background: linear-gradient(135deg, #f8f9fe 0%, #eef2ff 100%); padding: 40px 0;">
-  <div class="container">
-    <h1 style="font-size: 2.5rem; font-weight: 700; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px;">
-      Checkout
-    </h1>
-    <p style="color: #64748b; font-size: 1.1rem;">Complete your order</p>
-  </div>
+	<div class="container">
+		<h1
+			style="font-size: 2.5rem; font-weight: 700; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px;">
+			Checkout
+		</h1>
+		<p style="color: #64748b; font-size: 1.1rem;">Complete your order</p>
+	</div>
 </div>
 
 <div style="background: #f8f9fe; padding: 60px 0; min-height: 70vh;">
-  <div class="container">
-    <form action="/thankyou/" method="post">{% csrf_token %}
-      <div class="row">
-        <!-- Billing Details -->
-        <div class="col-lg-8 mb-4">
-          <div class="card border-0 shadow-sm" style="border-radius: 20px; overflow: hidden;">
-            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 25px;">
-              <h3 style="color: white; font-size: 1.3rem; font-weight: 700; margin: 0;">
-                <i class="fas fa-file-invoice mr-2"></i>Billing Details
-              </h3>
-            </div>
-            <div style="padding: 40px;">
-              <!-- Country Selection -->
-              <div class="form-group mb-4">
-                <label for="country" style="font-weight: 600; color: #1a202c; margin-bottom: 10px; display: block;">
-                  Country <span style="color: #dc2626;">*</span>
-                </label>
-                <select id="country" class="form-control modern-select" required
-                  style="border: 2px solid #e2e8f0; border-radius: 12px; padding: 14px 18px; font-size: 1rem; transition: all 0.3s; background: white;">  
-                  <option value="INDIA">India</option>    
-                  <option value="United States of America">United States of America</option>
-                  <option value="Russia">Russia</option>
-                  <option value="Australia">Australia</option>
-                  <option value="London">London</option>
-                </select>
-              </div>
-              
-              <input type="hidden" name="itemsJson" id="itemsJson">
-              <input type="hidden" name="amount" id="amount">
-              <input type="hidden" name="countryinput" id="countryinput">
-              
-              <!-- Name Fields -->
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group mb-4">
-                    <label for="c_fname" style="font-weight: 600; color: #1a202c; margin-bottom: 10px; display: block;">
-                      First Name <span style="color: #dc2626;">*</span>
-                    </label>
-                    <input type="text" class="form-control modern-input" id="c_fname" name="fname" required
-                      placeholder="John"
-                      style="border: 2px solid #e2e8f0; border-radius: 12px; padding: 14px 18px; font-size: 1rem; transition: all 0.3s;">
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group mb-4">
-                    <label for="c_lname" style="font-weight: 600; color: #1a202c; margin-bottom: 10px; display: block;">
-                      Last Name <span style="color: #dc2626;">*</span>
-                    </label>
-                    <input type="text" class="form-control modern-input" id="c_lname" name="lname" required
-                      placeholder="Doe"
-                      style="border: 2px solid #e2e8f0; border-radius: 12px; padding: 14px 18px; font-size: 1rem; transition: all 0.3s;">
-                  </div>
-                </div>
-              </div>
+	<div class="container">
+		<form action="/thankyou/" method="post">{% csrf_token %}
+			<div class="row">
+				<!-- Billing Details -->
+				<div class="col-lg-8 mb-4">
+					<div class="card border-0 shadow-sm" style="border-radius: 20px; overflow: hidden;">
+						<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 25px;">
+							<h3 style="color: white; font-size: 1.3rem; font-weight: 700; margin: 0;">
+								<i class="fas fa-file-invoice mr-2"></i>Billing Details
+							</h3>
+						</div>
+						<div style="padding: 40px;">
+							<!-- Country Selection -->
+							<div class="form-group mb-4">
+								<label for="country"
+									style="font-weight: 600; color: #1a202c; margin-bottom: 10px; display: block;">
+									Country <span style="color: #dc2626;">*</span>
+								</label>
+								<select id="country" class="form-control modern-select" required
+									style="border: 2px solid #e2e8f0; border-radius: 12px; padding: 14px 18px; font-size: 1rem; transition: all 0.3s; background: white;">
+									<option value="INDIA">India</option>
+									<option value="United States of America">United States of America</option>
+									<option value="Russia">Russia</option>
+									<option value="Australia">Australia</option>
+									<option value="London">London</option>
+								</select>
+							</div>
 
-              <!-- Address -->
-              <div class="form-group mb-4">
-                <label for="c_address" style="font-weight: 600; color: #1a202c; margin-bottom: 10px; display: block;">
-                  Street Address <span style="color: #dc2626;">*</span>
-                </label>
-                <input type="text" class="form-control modern-input" id="c_address" name="address" required
-                  placeholder="House number and street name"
-                  style="border: 2px solid #e2e8f0; border-radius: 12px; padding: 14px 18px; font-size: 1rem; transition: all 0.3s;">
-              </div>
+							<input type="hidden" name="itemsJson" id="itemsJson">
+							<input type="hidden" name="amount" id="amount">
+							<input type="hidden" name="countryinput" id="countryinput">
 
-              <!-- State and Zip -->
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group mb-4">
-                    <label for="c_state_country" style="font-weight: 600; color: #1a202c; margin-bottom: 10px; display: block;">
-                      State / Country <span style="color: #dc2626;">*</span>
-                    </label>
-                    <input type="text" class="form-control modern-input" id="c_state_country" name="state" required
-                      placeholder="California"
-                      style="border: 2px solid #e2e8f0; border-radius: 12px; padding: 14px 18px; font-size: 1rem; transition: all 0.3s;">
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group mb-4">
-                    <label for="c_postal_zip" style="font-weight: 600; color: #1a202c; margin-bottom: 10px; display: block;">
-                      Post / Zip Code <span style="color: #dc2626;">*</span>
-                    </label>
-                    <input type="text" class="form-control modern-input" id="c_postal_zip" name="zip" required
-                      placeholder="90210"
-                      style="border: 2px solid #e2e8f0; border-radius: 12px; padding: 14px 18px; font-size: 1rem; transition: all 0.3s;">
-                  </div>
-                </div>
-              </div>
+							<!-- Name Fields -->
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group mb-4">
+										<label for="c_fname"
+											style="font-weight: 600; color: #1a202c; margin-bottom: 10px; display: block;">
+											First Name <span style="color: #dc2626;">*</span>
+										</label>
+										<input type="text" class="form-control modern-input" id="c_fname" name="fname"
+											required placeholder="John"
+											style="border: 2px solid #e2e8f0; border-radius: 12px; padding: 14px 18px; font-size: 1rem; transition: all 0.3s;">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group mb-4">
+										<label for="c_lname"
+											style="font-weight: 600; color: #1a202c; margin-bottom: 10px; display: block;">
+											Last Name <span style="color: #dc2626;">*</span>
+										</label>
+										<input type="text" class="form-control modern-input" id="c_lname" name="lname"
+											required placeholder="Doe"
+											style="border: 2px solid #e2e8f0; border-radius: 12px; padding: 14px 18px; font-size: 1rem; transition: all 0.3s;">
+									</div>
+								</div>
+							</div>
 
-              <!-- Email and Phone -->
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group mb-4">
-                    <label for="c_email_address" style="font-weight: 600; color: #1a202c; margin-bottom: 10px; display: block;">
-                      Email Address <span style="color: #dc2626;">*</span>
-                    </label>
-                    <input type="email" class="form-control modern-input" id="c_email_address" name="email" required
-                      placeholder="john@example.com"
-                      style="border: 2px solid #e2e8f0; border-radius: 12px; padding: 14px 18px; font-size: 1rem; transition: all 0.3s;">
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group mb-4">
-                    <label for="c_phone" style="font-weight: 600; color: #1a202c; margin-bottom: 10px; display: block;">
-                      Phone Number <span style="color: #dc2626;">*</span>
-                    </label>
-                    <input type="tel" class="form-control modern-input" id="c_phone" name="phone" required
-                      placeholder="+1 234 567 8900"
-                      style="border: 2px solid #e2e8f0; border-radius: 12px; padding: 14px 18px; font-size: 1rem; transition: all 0.3s;">
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+							<!-- Address -->
+							<div class="form-group mb-4">
+								<label for="c_address"
+									style="font-weight: 600; color: #1a202c; margin-bottom: 10px; display: block;">
+									Street Address <span style="color: #dc2626;">*</span>
+								</label>
+								<input type="text" class="form-control modern-input" id="c_address" name="address"
+									required placeholder="House number and street name"
+									style="border: 2px solid #e2e8f0; border-radius: 12px; padding: 14px 18px; font-size: 1rem; transition: all 0.3s;">
+							</div>
 
-        <!-- Order Summary Sidebar -->
-        <div class="col-lg-4">
-          <div class="card border-0 shadow-sm" style="border-radius: 20px; overflow: hidden; position: sticky; top: 20px;">
-            <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); padding: 25px;">
-              <h3 style="color: white; font-size: 1.3rem; font-weight: 700; margin: 0;">
-                <i class="fas fa-shopping-bag mr-2"></i>Your Order
-              </h3>
-            </div>
-            <div style="padding: 30px;">
-              <!-- Order Items -->
-              <div id="orders" style="max-height: 300px; overflow-y: auto; margin-bottom: 20px;">
-                <!-- Items will be populated here -->
-              </div>
+							<!-- State and Zip -->
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group mb-4">
+										<label for="c_state_country"
+											style="font-weight: 600; color: #1a202c; margin-bottom: 10px; display: block;">
+											State / Country <span style="color: #dc2626;">*</span>
+										</label>
+										<input type="text" class="form-control modern-input" id="c_state_country"
+											name="state" required placeholder="California"
+											style="border: 2px solid #e2e8f0; border-radius: 12px; padding: 14px 18px; font-size: 1rem; transition: all 0.3s;">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group mb-4">
+										<label for="c_postal_zip"
+											style="font-weight: 600; color: #1a202c; margin-bottom: 10px; display: block;">
+											Post / Zip Code <span style="color: #dc2626;">*</span>
+										</label>
+										<input type="text" class="form-control modern-input" id="c_postal_zip"
+											name="zip" required placeholder="90210"
+											style="border: 2px solid #e2e8f0; border-radius: 12px; padding: 14px 18px; font-size: 1rem; transition: all 0.3s;">
+									</div>
+								</div>
+							</div>
 
-              <!-- Order Total -->
-              <div style="background: #f8f9fe; padding: 20px; border-radius: 12px; margin-bottom: 25px;">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                  <span style="color: #1a202c; font-size: 1.2rem; font-weight: 700;">Order Total</span>
-                  <span style="color: #1a202c; font-size: 1.8rem; font-weight: 700;" id="orderTotal">₹0</span>
-                </div>
-              </div>
+							<!-- Email and Phone -->
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group mb-4">
+										<label for="c_email_address"
+											style="font-weight: 600; color: #1a202c; margin-bottom: 10px; display: block;">
+											Email Address <span style="color: #dc2626;">*</span>
+										</label>
+										<input type="email" class="form-control modern-input" id="c_email_address"
+											name="email" required placeholder="john@example.com"
+											style="border: 2px solid #e2e8f0; border-radius: 12px; padding: 14px 18px; font-size: 1rem; transition: all 0.3s;">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group mb-4">
+										<label for="c_phone"
+											style="font-weight: 600; color: #1a202c; margin-bottom: 10px; display: block;">
+											Phone Number <span style="color: #dc2626;">*</span>
+										</label>
+										<input type="tel" class="form-control modern-input" id="c_phone" name="phone"
+											required placeholder="+1 234 567 8900"
+											style="border: 2px solid #e2e8f0; border-radius: 12px; padding: 14px 18px; font-size: 1rem; transition: all 0.3s;">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 
-              <!-- Place Order Button -->
-              <button class="btn btn-block" type="submit" onclick="updateTheItems()"
-                style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 16px; border-radius: 12px; font-weight: 600; font-size: 1.1rem; margin-bottom: 15px; transition: all 0.3s;">
-                <i class="fas fa-check-circle mr-2"></i>Place Order
-              </button>
+				<!-- Order Summary Sidebar -->
+				<div class="col-lg-4">
+					<div class="card border-0 shadow-sm"
+						style="border-radius: 20px; overflow: hidden; position: sticky; top: 20px;">
+						<div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); padding: 25px;">
+							<h3 style="color: white; font-size: 1.3rem; font-weight: 700; margin: 0;">
+								<i class="fas fa-shopping-bag mr-2"></i>Your Order
+							</h3>
+						</div>
+						<div style="padding: 30px;">
+							<!-- Order Items -->
+							<div id="orders" style="max-height: 300px; overflow-y: auto; margin-bottom: 20px;">
+								<!-- Items will be populated here -->
+							</div>
 
-              <!-- Security Notice -->
-              <div style="background: #ecfdf5; border: 2px solid #a7f3d0; border-radius: 12px; padding: 15px; text-align: center;">
-                <i class="fas fa-lock" style="color: #10b981; font-size: 1.2rem; margin-bottom: 8px;"></i>
-                <p style="color: #059669; font-size: 0.9rem; margin: 0; font-weight: 600;">
-                  Secure Checkout
-                </p>
-                <p style="color: #6b7280; font-size: 0.85rem; margin: 5px 0 0 0;">
-                  Your information is protected
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </form>
-  </div>
+							<!-- Order Total -->
+							<div style="background: #f8f9fe; padding: 20px; border-radius: 12px; margin-bottom: 25px;">
+								<div style="display: flex; justify-content: space-between; align-items: center;">
+									<span style="color: #1a202c; font-size: 1.2rem; font-weight: 700;">Order
+										Total</span>
+									<span style="color: #1a202c; font-size: 1.8rem; font-weight: 700;"
+										id="orderTotal">₹0</span>
+								</div>
+							</div>
+
+							<!-- Place Order Button -->
+							<button class="btn btn-block" type="submit" onclick="updateTheItems()"
+								style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 16px; border-radius: 12px; font-weight: 600; font-size: 1.1rem; margin-bottom: 15px; transition: all 0.3s;">
+								<i class="fas fa-check-circle mr-2"></i>Place Order
+							</button>
+
+							<!-- Security Notice -->
+							<div
+								style="background: #ecfdf5; border: 2px solid #a7f3d0; border-radius: 12px; padding: 15px; text-align: center;">
+								<i class="fas fa-lock"
+									style="color: #10b981; font-size: 1.2rem; margin-bottom: 8px;"></i>
+								<p style="color: #059669; font-size: 0.9rem; margin: 0; font-weight: 600;">
+									Secure Checkout
+								</p>
+								<p style="color: #6b7280; font-size: 0.85rem; margin: 5px 0 0 0;">
+									Your information is protected
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
 </div>
 
 <script>
-  let orders = document.getElementById('orders');
-  let cart = {};
-  
-  if (localStorage.getItem("cart")) {
-    cart = JSON.parse(localStorage.getItem("cart"));
-  }
-  
-  let totalPrice = 0;
-  
-  for (let item in cart) {
-    let name = cart[item][1];
-    let qty = cart[item][0];
-    let price = cart[item][2];
-    
-    let orderItem = `
+	let orders = document.getElementById('orders');
+	let cart = {};
+
+	if (localStorage.getItem("cart")) {
+		cart = JSON.parse(localStorage.getItem("cart"));
+	}
+
+	let totalPrice = 0;
+
+	for (let item in cart) {
+		let name = cart[item][1];
+		let qty = cart[item][0];
+		let price = cart[item][2];
+
+		let orderItem = `
       <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: white; border-radius: 10px; margin-bottom: 12px; border: 1px solid #e2e8f0;">
         <div style="flex: 1;">
           <h6 style="font-size: 1rem; font-weight: 600; color: #1a202c; margin-bottom: 5px;">${name}</h6>
@@ -201,41 +215,41 @@
         </div>
       </div>
     `;
-    
-    orders.innerHTML += orderItem;
-    totalPrice += Number(price.split(' ')[1]);
-  }
-  
-  document.getElementById('orderTotal').textContent = `₹${totalPrice}`;
 
-  function updateTheItems() {
-    document.getElementById('itemsJson').value = localStorage.getItem("cart");
-    document.getElementById('amount').value = totalPrice;
-    document.getElementById('countryinput').value = document.getElementById('country').value;
-  }
+		orders.innerHTML += orderItem;
+		totalPrice += Number(price.split(' ')[1]);
+	}
+
+	document.getElementById('orderTotal').textContent = `₹${totalPrice}`;
+
+	function updateTheItems() {
+		document.getElementById('itemsJson').value = localStorage.getItem("cart");
+		document.getElementById('amount').value = totalPrice;
+		document.getElementById('countryinput').value = document.getElementById('country').value;
+	}
 </script>
 
 <style>
-  .modern-input:focus,
-  .modern-select:focus {
-    outline: none;
-    border-color: #667eea !important;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
-  }
+	.modern-input:focus,
+	.modern-select:focus {
+		outline: none;
+		border-color: #667eea !important;
+		box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
+	}
 
-  .modern-input:valid,
-  .modern-select:valid {
-    border-color: #10b981 !important;
-  }
+	.modern-input:valid,
+	.modern-select:valid {
+		border-color: #10b981 !important;
+	}
 
-  .modern-input::placeholder {
-    color: #cbd5e0;
-  }
+	.modern-input::placeholder {
+		color: #cbd5e0;
+	}
 
-  .btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2) !important;
-  }
+	.btn:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2) !important;
+	}
 </style>
 
 {% endblock body %}
