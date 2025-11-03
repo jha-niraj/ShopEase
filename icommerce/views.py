@@ -96,16 +96,69 @@ def contact(request, methods = ['GET', 'POST']):
     return render(request, 'contact.html', params2)
 
 def shop(request, methods=['GET', 'POST']):
-    if request.method == 'POST':
-        allProds = []
-        catProds = Product.objects.values()
-        params = {'allprods': catProds}
-        return render(request, 'shop.html', params)
-    lengthofConsole = Product.objects.filter(Cateogary = "Console Applications")
-    lengthofWeb = Product.objects.filter(Cateogary = "Web Applications")
-    lengthofDesktop = Product.objects.filter(Cateogary = "Graphical Applications")
-    catProds = Product.objects.values()
-    params = {'allprods': catProds, 'shop': 'active', 'console': len(lengthofConsole), 'web': len(lengthofWeb), 'desktop': len(lengthofDesktop)}
+    # Get filter parameters
+    min_price = request.GET.get('min_price', '')
+    max_price = request.GET.get('max_price', '')
+    category = request.GET.get('category', '')
+    sort_by = request.GET.get('sort', '')
+    search_query = request.GET.get('search', '')
+    
+    # Start with all products
+    catProds = Product.objects.all()
+    
+    # Apply search filter
+    if search_query:
+        catProds = catProds.filter(Product_Name__icontains=search_query) | catProds.filter(Description__icontains=search_query)
+    
+    # Apply category filter
+    if category:
+        catProds = catProds.filter(Cateogary=category)
+    
+    # Apply price filter
+    if min_price:
+        try:
+            catProds = catProds.filter(Price__gte=float(min_price))
+        except ValueError:
+            pass
+    
+    if max_price:
+        try:
+            catProds = catProds.filter(Price__lte=float(max_price))
+        except ValueError:
+            pass
+    
+    # Apply sorting
+    if sort_by == 'price_low':
+        catProds = catProds.order_by('Price')
+    elif sort_by == 'price_high':
+        catProds = catProds.order_by('-Price')
+    elif sort_by == 'name_asc':
+        catProds = catProds.order_by('Product_Name')
+    elif sort_by == 'name_desc':
+        catProds = catProds.order_by('-Product_Name')
+    elif sort_by == 'newest':
+        catProds = catProds.order_by('-id')
+    else:
+        catProds = catProds.order_by('-id')  # Default: newest first
+    
+    # Get category counts
+    lengthofConsole = Product.objects.filter(Cateogary="Console Applications").count()
+    lengthofWeb = Product.objects.filter(Cateogary="Web Applications").count()
+    lengthofDesktop = Product.objects.filter(Cateogary="Graphical Applications").count()
+    
+    params = {
+        'allprods': catProds, 
+        'shop': 'active', 
+        'console': lengthofConsole, 
+        'web': lengthofWeb, 
+        'desktop': lengthofDesktop,
+        'current_min': min_price,
+        'current_max': max_price,
+        'current_category': category,
+        'current_sort': sort_by,
+        'search_query': search_query,
+        'total_products': catProds.count()
+    }
     return render(request, 'shop.html', params)
 
 def thankyou(request, methods = ['GET', 'POST']):

@@ -40,12 +40,6 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
 ```
 
-```bash
-# .env file - NOT committed to Git ✅
-EMAIL_HOST_USER=jhaniraj45@gmail.com
-EMAIL_HOST_PASSWORD=acumdizotvgzaisk
-```
-
 ---
 
 ## 📋 Current .env Configuration
