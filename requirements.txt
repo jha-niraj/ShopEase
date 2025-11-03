@@ -1,0 +1,16 @@
+# ShopEase E-Commerce Platform - Python Dependencies
+
+# Core Framework
+Django==3.1.1
+
+# Image Processing
+Pillow
+
+# Environment Variables Management
+python-decouple
+
+# Optional but recommended for production:
+# gunicorn==20.1.0          # Production WSGI server
+# psycopg2-binary==2.9.9    # PostgreSQL adapter
+# whitenoise==6.5.0         # Static file serving
+# django-cors-headers==4.3.0  # CORS support

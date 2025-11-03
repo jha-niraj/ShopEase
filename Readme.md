@@ -38,7 +38,8 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduc
 
 ## Authors
 
-* **Aman Ojha** - *Initial work* - [Aman Ojha](https://github.com/coderaman07)
+* **Niraj Jha** - [Niraj Jha](https://github.com/jha-niraj)
+* **Aman Ojha** - [Aman Ojha](https://github.com/Dharmendra2567)
 
 ## License
 

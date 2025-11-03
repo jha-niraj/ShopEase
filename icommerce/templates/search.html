@@ -5,31 +5,53 @@
 <h3 style="margin-top: 3em;margin-left: 14em;">Search Results for : {{cat}}</h3>
 
 {% if catprods %}
-  {% for catprods in catprods %}
-      
-    <div class="site-section">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="border">
-                <a href="/view/{{catprods.Product_Name}}/{{catprods.id}}" class="item">
-              <img src="/media/{{catprods.image}}" alt="Image" class="img-fluid">
+<div class="container my-5">
+  <div class="row">
+    {% for catprods in catprods %}
+    <div class="col-lg-4 col-md-6 mb-4">
+      <div class="card border-0 shadow-sm" style="border-radius: 20px; overflow: hidden; height: 100%; transition: all 0.3s ease; background: white;">
+        <a href="/view/{{catprods.Product_Name}}/{{catprods.id}}" style="text-decoration: none;">
+          <div style="position: relative; height: 280px; background: linear-gradient(135deg, #f8f9fe 0%, #e9ecef 100%); overflow: hidden;">
+            {% if catprods.image %}
+            <img src="/media/{{catprods.image}}" alt="{{catprods.Product_Name}}" 
+              style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;"/>
+            {% else %}
+            <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+              <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#667eea" stroke-width="2">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                <line x1="8" y1="21" x2="16" y2="21"></line>
+                <line x1="12" y1="17" x2="12" y2="21"></line>
+              </svg>
+            </div>
+            {% endif %}
+          </div>
+          <div style="padding: 30px;">
+            <div style="display: inline-block; background: #eef2ff; color: #667eea; padding: 6px 14px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; margin-bottom: 15px;">
+              {{catprods.Cateogary}}
+            </div>
+            <h3 style="font-size: 1.35rem; font-weight: 700; color: #1a202c; margin-bottom: 12px; line-height: 1.4;" id="namep{{catprods.id}}">
+              {{catprods.Product_Name}}
+            </h3>
+            <p style="color: #718096; font-size: 0.95rem; margin-bottom: 20px; line-height: 1.6;">
+              {{catprods.Description|truncatewords:15}}
+            </p>
+            <div style="display: flex; align-items: center; justify-content: space-between; padding-top: 20px; border-top: 1px solid #e2e8f0;">
+              <div>
+                <span style="font-size: 1.75rem; font-weight: 700; color: #1a202c;" id="pricep{{catprods.id}}">₹{{catprods.Price}}</span>
+                <del style="font-size: 1rem; color: #a0aec0; margin-left: 8px;">₹{% widthratio catprods.Price 1 2 %}</del>
+              </div>
+              <button class="addtoCart btn btn-sm" id="p{{catprods.id}}" 
+                  style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 10px 20px; border-radius: 10px; font-weight: 600; transition: all 0.3s ease;">
+                Add to Cart
+              </button>
             </div>
           </div>
-          <div class="col-md-6">
-            <a href="/view/{{catprods.Product_Name}}/{{catprods.id}}" class="item">
-            <h2 class="text-black namee" id="namep{{catprods.id}}">{{catprods.Product_Name}}</h2>
-            </a>
-            <p>{{catprods.Description}}</p>
-            <p><strong class="text-primary h4" id="pricep{{catprods.id}}">Price : Rs. {{catprods.Price}}</strong> <del>Rs. {% widthratio catprods.Price 1 3 %}</del> </p>
-            <span><button class="buy-now btn btn-sm height-auto px-4 py-3 btn-primary addtoCart" style="color: white;" id="p{{catprods.id}}">Add To Cart</button></span>
-            <span><a href="/cart" class="buy-now btn btn-sm height-auto px-4 py-3 btn-primary">CheckOut</a></span>
-            </div>
-          </div>
-        </div>
+        </a>
       </div>
     </div>
-  {% endfor %}
+    {% endfor %}
+  </div>
+</div>
 {% else %}
 <h5 style="margin-top: 4em;margin-left: 21em;">No Products matching with Your Entered Cateogray</h5>
 {% endif %}
@@ -64,6 +86,22 @@
         </div>
       </div>
     </div>
+
+<style>
+.card:hover {
+	transform: translateY(-10px);
+	box-shadow: 0 15px 40px rgba(0,0,0,0.12) !important;
+}
+
+.card img:hover {
+	transform: scale(1.05);
+}
+
+.btn:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 10px 25px rgba(0,0,0,0.2) !important;
+}
+</style>
 
 {% endblock body %}
 
