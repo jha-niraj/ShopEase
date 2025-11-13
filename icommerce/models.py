@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 admin = 'RushX'
 
 # Create your models here.
@@ -9,8 +10,15 @@ class Product(models.Model):
     Price = models.IntegerField(default=0)
     Description = models.TextField(max_length=1000)
     pub_date = models.DateField()
-    image = models.ImageField(upload_to='icommerce/images')
+    image = models.ImageField(upload_to='icommerce/images', blank=True, null=True)
     linkToDownload = models.CharField(max_length=500, default='')
+    
+    # User-generated product fields
+    seller = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='products')
+    is_approved = models.BooleanField(default=False)
+    approved_date = models.DateTimeField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
         return self.Product_Name

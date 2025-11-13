@@ -6,14 +6,14 @@
 		<div class="row align-items-center">
 			<div class="col-md-6">
 				<h1 style="font-size: 2.5rem; font-weight: 700; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px;">
-					Shop All Products
+					Handmade Marketplace
 				</h1>
-				<p style="color: #64748b; font-size: 1.1rem;">{{ total_products }} products available</p>
+				<p style="color: #64748b; font-size: 1.1rem;">{{ total_products }} unique handcrafted items</p>
 			</div>
 			<div class="col-md-6">
 				<form method="GET" action="/shop/" class="d-flex align-items-center" style="gap: 10px;">
 					<input type="text" name="search" value="{{ search_query }}" 
-						class="form-control" placeholder="Search products..." 
+						class="form-control" placeholder="Search handmade items..." 
 						style="border-radius: 12px; border: 2px solid #e2e8f0; padding: 12px 20px;">
 					<button type="submit" class="btn" 
 						style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 12px 30px; border-radius: 12px; font-weight: 600; white-space: nowrap;">
@@ -72,7 +72,7 @@
 										<input type="radio" name="category" value="Web Applications" 
 											{% if current_category == 'Web Applications' %}checked{% endif %}
 											style="margin-right: 10px; cursor: pointer;" onchange="this.form.submit()">
-										<span style="flex: 1; color: #1a202c; font-weight: 500;">Web Apps</span>
+										<span style="flex: 1; color: #1a202c; font-weight: 500;">Pottery & Ceramics</span>
 										<span style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 4px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 600;">{{ web }}</span>
 									</label>
 								</div>
@@ -81,7 +81,7 @@
 										<input type="radio" name="category" value="Graphical Applications" 
 											{% if current_category == 'Graphical Applications' %}checked{% endif %}
 											style="margin-right: 10px; cursor: pointer;" onchange="this.form.submit()">
-										<span style="flex: 1; color: #1a202c; font-weight: 500;">Desktop Apps</span>
+										<span style="flex: 1; color: #1a202c; font-weight: 500;">Jewelry & Accessories</span>
 										<span style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 4px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 600;">{{ desktop }}</span>
 									</label>
 								</div>
@@ -90,7 +90,7 @@
 										<input type="radio" name="category" value="Console Applications" 
 											{% if current_category == 'Console Applications' %}checked{% endif %}
 											style="margin-right: 10px; cursor: pointer;" onchange="this.form.submit()">
-										<span style="flex: 1; color: #1a202c; font-weight: 500;">Console Apps</span>
+										<span style="flex: 1; color: #1a202c; font-weight: 500;">Textiles & Fabrics</span>
 										<span style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 4px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 600;">{{ console }}</span>
 									</label>
 								</div>

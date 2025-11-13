@@ -25,6 +25,20 @@
 	{% endcomment %}
 
 	<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+	
+	<style>
+		/* Prevent content from overlapping with navbar */
+		.site-navbar {
+			position: relative;
+			z-index: 1000;
+		}
+		
+		/* Add spacing after navbar for all pages */
+		.content-wrapper {
+			margin-top: 30px;
+			min-height: 60vh;
+		}
+	</style>
 </head>
 
 <body>
@@ -61,26 +75,19 @@
 								<ul class="site-menu js-clone-nav d-none d-lg-block">
 									<li class="{{clas}}"><a href="/">Home</a></li>
 									<li class="has-children {{style}}">
-										<a href="#">Cateogary</a>
+										<a href="#">Categories</a>
 										<ul class="dropdown">
-											<li><a href="/WebApplications/">Web Apps</a></li>
+											<li><a href="/WebApplications/">Pottery & Ceramics</a></li>
 											<li>
-												<a href="/GraphicalApplications/">Graphical Applications</a>
+												<a href="/GraphicalApplications/">Jewelry & Accessories</a>
 											</li>
 											<li>
-												<a href="/ConsoleApplications/">Console Applications</a>
-											</li>
-											<li class="has-children">
-												<a href="#">More</a>
-												<ul class="dropdown">
-													<li><a href="/frontend/">FrontEnd</a></li>
-													<li><a href="/backend/">Backend</a></li>
-												</ul>
+												<a href="/ConsoleApplications/">Textiles & Fabrics</a>
 											</li>
 										</ul>
 									</li>
 
-									<li class="{{shop}}"><a href="/shop">Fresh Arrivals</a></li>
+									<li class="{{shop}}"><a href="/shop">Shop All Items</a></li>
 									<li class="{{cont}}"><a href="/contact">Contact</a></li>
 									<li class="{{abou}}"><a href="/about">About</a></li>
 								</ul>
@@ -90,10 +97,12 @@
 							<a href="#" class="icons-btn d-inline-block js-search-open"><span
 									class="icon-search"></span></a>
 							<a href="#" class="icons-btn d-inline-block"><span class="icon-heart-o"></span></a>
+							{% if not on_cart_page and not on_checkout_page %}
 							<a href="/cart" class="icons-btn d-inline-block bag">
 								<span class="icon-shopping-bag"></span>
-								<span class="number" id="numb">0</span>
+								<span class="number" id="numb"></span>
 							</a>
+							{% endif %}
 							
 							{% if user.is_authenticated %}
 							<!-- User Profile Dropdown -->
@@ -109,6 +118,12 @@
 									</div>
 									<a href="/profile" style="display: block; padding: 12px 15px; color: #333; text-decoration: none; transition: background 0.2s;">
 										<span class="icon-user" style="margin-right: 8px;"></span>My Profile
+									</a>
+									<a href="/my-products" style="display: block; padding: 12px 15px; color: #333; text-decoration: none; transition: background 0.2s;">
+										<span class="icon-grid" style="margin-right: 8px;"></span>My Products
+									</a>
+									<a href="/list-product" style="display: block; padding: 12px 15px; color: #333; text-decoration: none; transition: background 0.2s;">
+										<span class="icon-plus" style="margin-right: 8px;"></span>List New Product
 									</a>
 									<a href="/cart" style="display: block; padding: 12px 15px; color: #333; text-decoration: none; transition: background 0.2s;">
 										<span class="icon-shopping-bag" style="margin-right: 8px;"></span>My Orders
@@ -163,7 +178,9 @@
 			</div>
 		</div>
 
-		{% block body %} {% endblock body %}
+		<div class="content-wrapper">
+			{% block body %} {% endblock body %}
+		</div>
 
 		<footer class="site-footer custom-border-top">
 			<div class="container">
@@ -195,12 +212,12 @@
 							</div>
 							<div class="col-md-6 col-lg-4">
 								<ul class="list-unstyled" style="margin-left: 2em">
-									<li><a href="/WebApplications/">Web Apps</a></li>
+									<li><a href="/WebApplications/">Pottery & Ceramics</a></li>
 									<li>
-										<a href="/GraphicalApplications/">Desktop Applications</a>
+										<a href="/GraphicalApplications/">Jewelry & Accessories</a>
 									</li>
 									<li>
-										<a href="/ConsoleApplications/">Console Applications</a>
+										<a href="/ConsoleApplications/">Textiles & Fabrics</a>
 									</li>
 									<li><a href="/cart/">Cart</a></li>
 								</ul>
@@ -214,8 +231,8 @@
 							<ul class="list-unstyled">
 								<li class="address">
 									<a href="https://github.com/Dharmendra2567/Django-ecommerce-project"
-										style="color: black">@GitHub</a>
-									and also IMS UC Hostel
+										style="color: black">@jha-niraj</a>
+										LPU, Jalandhar, Punjab
 								</li>
 								<li class="phone">
 									<a href="https://wa.me/+918102841309">+91-8102841309</a>
@@ -264,33 +281,100 @@
 			cart = JSON.parse(localStorage.getItem("cart"));
 		}
 
-		$(".addtoCart").click(function () {
+		$(".addtoCart").click(function (e) {
+			e.preventDefault();
+			e.stopPropagation();
+			
 			var idstring = this.id.toString();
+			console.log("=== Adding to cart ===");
+			console.log("Button ID:", idstring);
+			
 			if (cart[idstring] != undefined) {
+				console.log("Item already in cart, incrementing quantity");
 				qty = cart[idstring][0] + 1;
+				cart[idstring][0] = qty;
 			} else {
 				qty = 1;
-				name = document.getElementById("name" + idstring).innerHTML;
-				price = document
-					.getElementById("price" + idstring)
-					.innerText.split(": ")[1];
-				cart[idstring] = [qty, name, price];
+				var nameElement = document.getElementById("name" + idstring);
+				var priceElement = document.getElementById("price" + idstring);
+				
+				console.log("Name element:", nameElement);
+				console.log("Price element:", priceElement);
+				
+				if (nameElement && priceElement) {
+					// Get name and clean up whitespace (tabs, newlines, extra spaces)
+					name = nameElement.textContent.trim().replace(/\s+/g, ' ');
+					console.log("Product name:", name);
+					
+					// Get price text and clean it
+					var priceText = priceElement.textContent.trim();
+					console.log("Raw price text:", priceText);
+					
+					// Extract price - handle multiple formats
+					var price = priceText;
+					if (priceText.includes(": ")) {
+						price = priceText.split(": ")[1].trim();
+					}
+					
+					// Validate price exists and has the rupee symbol
+					if (!price || price === "" || price === "₹" || price === "₹0") {
+						console.error("Invalid price detected:", price);
+						alert("Error: Product price not available. Please refresh and try again.");
+						return;
+					}
+					
+					console.log("Final price:", price);
+					cart[idstring] = [qty, name, price];
+				} else {
+					console.error("Could not find name or price element!");
+					console.error("Looking for: name" + idstring + " and price" + idstring);
+					alert("Error adding to cart. Please refresh the page and try again.");
+					return;
+				}
 			}
+			
 			localStorage.setItem("cart", JSON.stringify(cart));
-			document.getElementById(idstring).innerText = "Added";
+			console.log("Cart saved:", cart);
+			console.log("===================");
+			
+			// Update button text
+			this.innerHTML = "Added ✓";
+			this.style.background = "linear-gradient(135deg, #10b981 0%, #059669 100%)";
+			
+			// Update cart counter immediately
+			updateCartCounter();
+			
+			// Reset button after 2 seconds
+			var button = this;
+			setTimeout(function() {
+				button.innerHTML = "Add to Cart";
+				button.style.background = "linear-gradient(135deg, #667eea 0%, #764ba2 100%)";
+			}, 2000);
 		});
 
-		setInterval(function () {
-			if (localStorage.length < 1) {
-				document.getElementById("numb").innerHTML = 0;
+		// Update cart counter
+		function updateCartCounter() {
+			var numbElement = document.getElementById("numb");
+			if (!numbElement) return; // Exit if element doesn't exist yet
+			
+			if (localStorage.getItem("cart") == null || Object.keys(JSON.parse(localStorage.getItem("cart"))).length < 1) {
+				numbElement.innerHTML = 0;
 			} else {
-				let i = 0;
-				for (item in cart) {
-					i = i + 1;
-				}
-				document.getElementById("numb").innerHTML = i;
+				let cart = JSON.parse(localStorage.getItem("cart"));
+				let count = Object.keys(cart).length;
+				numbElement.innerHTML = count;
 			}
-		}, 5);
+		}
+		
+		// Update counter immediately when DOM is ready
+		if (document.readyState === 'loading') {
+			document.addEventListener('DOMContentLoaded', updateCartCounter);
+		} else {
+			updateCartCounter();
+		}
+		
+		// Update counter periodically
+		setInterval(updateCartCounter, 1000);
 	</script>
 </body>
 

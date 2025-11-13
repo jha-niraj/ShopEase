@@ -22,4 +22,7 @@ urlpatterns = [
     path("login/", views.login_view, name="login"),
     path("logout/", views.logout_view, name="logout"),
     path("profile/", views.profile_view, name="profile"),
+    path("list-product/", views.list_product, name="list_product"),
+    path("my-products/", views.my_products, name="my_products"),
+    path("delete-product/<int:product_id>/", views.delete_product, name="delete_product"),
 ]

@@ -120,12 +120,51 @@
 		let totalPrice = 0;
 		let itemCount = 0;
 
+		console.log("=== Rendering cart ===");
+		console.log("Cart data:", cart);
+
 		for (let item in cart) {
-			let name = cart[item][1];
 			let qty = cart[item][0];
+			let name = cart[item][1];
 			let price = cart[item][2];
-			let itemPrice = Number(price.split(' ')[1]);
-			totalPrice += itemPrice;
+			
+			console.log("Processing item:", item);
+			console.log("  - Name:", name);
+			console.log("  - Qty:", qty);
+			console.log("  - Price:", price);
+			
+			// Skip items with invalid data
+			if (!name || !price || price === null || price === "null") {
+				console.warn("Skipping item with invalid data:", item);
+				// Remove invalid item from cart
+				delete cart[item];
+				localStorage.setItem("cart", JSON.stringify(cart));
+				continue;
+			}
+			
+			// Clean product name (remove extra whitespace, tabs, newlines)
+			name = name.toString().trim().replace(/\s+/g, ' ');
+			
+			// Extract numeric price - handle both "₹500" and "Price: ₹500" formats
+			let priceText = price.toString().trim();
+			let itemPrice = 0;
+			
+			// Remove currency symbol and extract number
+			let priceNumber = priceText.replace(/[₹,\s]/g, '');
+			if (priceText.includes(':')) {
+				priceNumber = priceText.split(':')[1].trim().replace(/[₹,\s]/g, '');
+			}
+			
+			itemPrice = parseFloat(priceNumber);
+			console.log("  - Extracted numeric price:", itemPrice);
+			
+			if (isNaN(itemPrice) || itemPrice === 0) {
+				console.warn("Invalid price for item:", item, "- Price:", price);
+				// Still show the item but don't add to total
+			} else {
+				totalPrice += itemPrice;
+			}
+			
 			itemCount++;
 
 			let cartItem = `
@@ -159,9 +198,19 @@
 			itemsContainer.innerHTML += cartItem;
 		}
 
+		console.log("Total items:", itemCount);
+		console.log("Total price:", totalPrice);
+		console.log("===================");
+
 		document.getElementById('itemCount').textContent = itemCount;
 		document.getElementById('subtotal').textContent = `₹${totalPrice}`;
 		document.getElementById('totalPrice').textContent = `₹${totalPrice}`;
+		
+		// If no valid items left after cleaning, show empty cart
+		if (itemCount === 0) {
+			document.getElementById('emptyCart').style.display = 'block';
+			document.getElementById('cartContent').style.display = 'none';
+		}
 	}
 
 	function removeItem(itemId) {

@@ -1,0 +1,95 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{% block title %}List Your Product{% endblock %}
+
+{% block body %}
+<div class="site-section" style="padding-top: 100px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="h3 mb-3 text-black">List Your Handmade Product</h2>
+            </div>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <div class="card shadow">
+                    <div class="card-body p-5">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            
+                            <div class="form-group">
+                                <label for="{{ form.Product_Name.id_for_label }}">{{ form.Product_Name.label }} <span class="text-danger">*</span></label>
+                                {{ form.Product_Name }}
+                                {% if form.Product_Name.errors %}
+                                    <div class="text-danger small">{{ form.Product_Name.errors }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="{{ form.Cateogary.id_for_label }}">{{ form.Cateogary.label }} <span class="text-danger">*</span></label>
+                                {{ form.Cateogary }}
+                                {% if form.Cateogary.errors %}
+                                    <div class="text-danger small">{{ form.Cateogary.errors }}</div>
+                                {% endif %}
+                                <small class="form-text text-muted">Choose the category that best fits your handmade product</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="{{ form.Price.id_for_label }}">{{ form.Price.label }} <span class="text-danger">*</span></label>
+                                {{ form.Price }}
+                                {% if form.Price.errors %}
+                                    <div class="text-danger small">{{ form.Price.errors }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="{{ form.Description.id_for_label }}">{{ form.Description.label }} <span class="text-danger">*</span></label>
+                                {{ form.Description }}
+                                {% if form.Description.errors %}
+                                    <div class="text-danger small">{{ form.Description.errors }}</div>
+                                {% endif %}
+                                <small class="form-text text-muted">Describe your product's materials, techniques, dimensions, and unique features</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="{{ form.image.id_for_label }}">{{ form.image.label }} <span class="text-danger">*</span></label>
+                                {{ form.image }}
+                                {% if form.image.errors %}
+                                    <div class="text-danger small">{{ form.image.errors }}</div>
+                                {% endif %}
+                                <small class="form-text text-muted">Upload a high-quality image of your product (max 5MB)</small>
+                            </div>
+
+                            <div class="alert alert-info">
+                                <strong>📋 Note:</strong> Your product will be reviewed by our team before appearing on the marketplace. You'll be able to track its status in the "My Products" section.
+                            </div>
+
+                            <div class="form-group mt-4">
+                                <button type="submit" class="btn btn-primary btn-lg btn-block">
+                                    Submit Product for Review
+                                </button>
+                                <a href="{% url 'my_products' %}" class="btn btn-outline-secondary btn-lg btn-block mt-2">
+                                    View My Products
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

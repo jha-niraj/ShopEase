@@ -26,11 +26,11 @@ from django.shortcuts import render
 from .models import Product
 
 def home(request):
-    # latest product as a queryset (0 or 1 element)
-    newprod = Product.objects.order_by('-id')[:1]
+    # latest approved product as a queryset (0 or 1 element)
+    newprod = Product.objects.filter(is_approved=True).order_by('-id')[:1]
 
-    allprod = Product.objects.all()
-    webprod = Product.objects.filter(Cateogary="Graphical Applications")  # check spelling of this field in your model
+    allprod = Product.objects.filter(is_approved=True)
+    webprod = Product.objects.filter(Cateogary="Graphical Applications", is_approved=True)
     params = {'newprod': newprod, 'allprod': allprod, 'gui': webprod, 'clas': 'active'}
     return render(request, 'index.html', params)
 
@@ -40,10 +40,10 @@ def about(request):
     return render(request, 'about.html',params)
 
 def cart(request):
-    return render(request, 'cart.html')
+    return render(request, 'cart.html', {'on_cart_page': True})
 
 def checkout(request):
-    return render(request, 'checkout.html')
+    return render(request, 'checkout.html', {'on_checkout_page': True})
 
 def contact(request, methods = ['GET', 'POST']):
     if request.method == 'POST':
@@ -103,8 +103,8 @@ def shop(request, methods=['GET', 'POST']):
     sort_by = request.GET.get('sort', '')
     search_query = request.GET.get('search', '')
     
-    # Start with all products
-    catProds = Product.objects.all()
+    # Start with approved products only
+    catProds = Product.objects.filter(is_approved=True)
     
     # Apply search filter
     if search_query:
@@ -141,10 +141,10 @@ def shop(request, methods=['GET', 'POST']):
     else:
         catProds = catProds.order_by('-id')  # Default: newest first
     
-    # Get category counts
-    lengthofConsole = Product.objects.filter(Cateogary="Console Applications").count()
-    lengthofWeb = Product.objects.filter(Cateogary="Web Applications").count()
-    lengthofDesktop = Product.objects.filter(Cateogary="Graphical Applications").count()
+    # Get category counts (only approved products)
+    lengthofConsole = Product.objects.filter(Cateogary="Console Applications", is_approved=True).count()
+    lengthofWeb = Product.objects.filter(Cateogary="Web Applications", is_approved=True).count()
+    lengthofDesktop = Product.objects.filter(Cateogary="Graphical Applications", is_approved=True).count()
     
     params = {
         'allprods': catProds, 
@@ -235,32 +235,32 @@ def view(request, Product_Name, ID_of_the_Product):
     return render(request, 'shop-single.html', params)
 
 def web(request):
-    head = "Web Applications"
-    Prods = Product.objects.filter(Cateogary = "Web Applications")
-    allprods = Product.objects.values()
-    lengthofConsole = Product.objects.filter(Cateogary = "Console Applications")
-    lengthofWeb = Product.objects.filter(Cateogary = "Web Applications")
-    lengthofDesktop = Product.objects.filter(Cateogary = "Graphical Applications")
+    head = "Pottery & Ceramics"
+    Prods = Product.objects.filter(Cateogary = "Web Applications", is_approved=True)
+    allprods = Product.objects.filter(is_approved=True).values()
+    lengthofConsole = Product.objects.filter(Cateogary = "Console Applications", is_approved=True)
+    lengthofWeb = Product.objects.filter(Cateogary = "Web Applications", is_approved=True)
+    lengthofDesktop = Product.objects.filter(Cateogary = "Graphical Applications", is_approved=True)
     prods = {'head': head, 'style': 'active', 'prod': Prods, 'allprods': allprods, 'web': len(lengthofWeb), 'desktop': len(lengthofDesktop), 'console': len(lengthofConsole)}
     return render(request, 'DiffrentiatedPoducts.html', prods)
 
 def desktop(request):
-    head = "Graphical Applications"
-    Prods = Product.objects.filter(Cateogary = "Graphical Applications")
-    allprods = Product.objects.values()
-    lengthofConsole = Product.objects.filter(Cateogary = "Console Applications")
-    lengthofWeb = Product.objects.filter(Cateogary = "Web Applications")
-    lengthofDesktop = Product.objects.filter(Cateogary = "Graphical Applications")
+    head = "Jewelry & Accessories"
+    Prods = Product.objects.filter(Cateogary = "Graphical Applications", is_approved=True)
+    allprods = Product.objects.filter(is_approved=True).values()
+    lengthofConsole = Product.objects.filter(Cateogary = "Console Applications", is_approved=True)
+    lengthofWeb = Product.objects.filter(Cateogary = "Web Applications", is_approved=True)
+    lengthofDesktop = Product.objects.filter(Cateogary = "Graphical Applications", is_approved=True)
     prods = {'head': head, 'style': 'active', 'prod': Prods, 'allprods': allprods, 'web': len(lengthofWeb), 'desktop': len(lengthofDesktop), 'console': len(lengthofConsole)}
     return render(request, 'DiffrentiatedPoducts.html', prods)
 
 def console(request):
-    head = "Console Applications"
-    Prods = Product.objects.filter(Cateogary = "Console Applications")
-    allprods = Product.objects.values()
-    lengthofConsole = Product.objects.filter(Cateogary = "Console Applications")
-    lengthofWeb = Product.objects.filter(Cateogary = "Web Applications")
-    lengthofDesktop = Product.objects.filter(Cateogary = "Graphical Applications")
+    head = "Textiles & Fabrics"
+    Prods = Product.objects.filter(Cateogary = "Console Applications", is_approved=True)
+    allprods = Product.objects.filter(is_approved=True).values()
+    lengthofConsole = Product.objects.filter(Cateogary = "Console Applications", is_approved=True)
+    lengthofWeb = Product.objects.filter(Cateogary = "Web Applications", is_approved=True)
+    lengthofDesktop = Product.objects.filter(Cateogary = "Graphical Applications", is_approved=True)
     prods = {'head': head, 'style': 'active', 'prod': Prods, 'allprods': allprods, 'web': len(lengthofWeb), 'desktop': len(lengthofDesktop), 'console': len(lengthofConsole)}
     return render(request, 'DiffrentiatedPoducts.html', prods)
 
@@ -376,3 +376,60 @@ def profile_view(request):
         return redirect('profile')
     
     return render(request, 'profile.html')
+
+
+# Product Listing Views
+@login_required(login_url='/login/')
+def list_product(request):
+    """View for sellers to list their handmade products"""
+    from .forms import ProductListingForm
+    from django.utils import timezone
+    
+    if request.method == 'POST':
+        form = ProductListingForm(request.POST, request.FILES)
+        if form.is_valid():
+            product = form.save(commit=False)
+            product.seller = request.user
+            product.pub_date = timezone.now().date()
+            product.is_approved = False  # Needs admin approval
+            product.linkToDownload = f"https://shopease.com/products/{product.Product_Name.lower().replace(' ', '-')}"
+            product.save()
+            
+            messages.success(request, 'Your product has been submitted for review! It will be visible once approved by our team.')
+            return redirect('my_products')
+    else:
+        form = ProductListingForm()
+    
+    return render(request, 'list_product.html', {'form': form})
+
+
+@login_required(login_url='/login/')
+def my_products(request):
+    """View for sellers to see their listed products and their status"""
+    products = Product.objects.filter(seller=request.user).order_by('-created_at')
+    
+    # Count by status
+    pending_count = products.filter(is_approved=False).count()
+    approved_count = products.filter(is_approved=True).count()
+    
+    context = {
+        'products': products,
+        'pending_count': pending_count,
+        'approved_count': approved_count,
+    }
+    
+    return render(request, 'my_products.html', context)
+
+
+@login_required(login_url='/login/')
+def delete_product(request, product_id):
+    """View for sellers to delete their own products"""
+    try:
+        product = Product.objects.get(id=product_id, seller=request.user)
+        product_name = product.Product_Name
+        product.delete()
+        messages.success(request, f'Product "{product_name}" has been deleted successfully.')
+    except Product.DoesNotExist:
+        messages.error(request, 'Product not found or you do not have permission to delete it.')
+    
+    return redirect('my_products')

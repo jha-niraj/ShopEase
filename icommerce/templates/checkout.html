@@ -199,6 +199,8 @@
 
 	let totalPrice = 0;
 
+	console.log("Checkout cart:", cart);
+
 	for (let item in cart) {
 		let name = cart[item][1];
 		let qty = cart[item][0];
@@ -217,9 +219,28 @@
     `;
 
 		orders.innerHTML += orderItem;
-		totalPrice += Number(price.split(' ')[1]);
+		
+		// Extract numeric price - handle both "₹500" and "Price: ₹500" formats
+		let priceText = price.toString();
+		let itemPrice = 0;
+		
+		if (priceText.includes(' ')) {
+			// Format like "₹ 500" or "Price: ₹500"
+			let parts = priceText.split(' ');
+			itemPrice = Number(parts[parts.length - 1].replace(/[₹,]/g, ''));
+		} else {
+			// Format like "₹500"
+			itemPrice = Number(priceText.replace(/[₹,]/g, ''));
+		}
+		
+		console.log("Item price:", itemPrice);
+		
+		if (!isNaN(itemPrice)) {
+			totalPrice += itemPrice;
+		}
 	}
 
+	console.log("Total price:", totalPrice);
 	document.getElementById('orderTotal').textContent = `₹${totalPrice}`;
 
 	function updateTheItems() {
